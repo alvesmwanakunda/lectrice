@@ -1,0 +1,7 @@
+{
+  "name": "lectrice",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
