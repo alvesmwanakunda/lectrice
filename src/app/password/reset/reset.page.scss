@@ -1,0 +1,86 @@
+.imgLogo{
+    //width: 200px;
+    height: 110px;
+}
+
+.imgContent{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  //width: 50%;
+}
+
+
+.titleSingup{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 33px;
+    text-align: center;
+}
+.subSignup{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #9A9797;
+    text-align: center;
+}
+
+.example-full-width {
+    width: 20%;
+    margin-right: 5px;
+  }
+
+  .labelFrom{
+    color: #CECECE;
+    font-size: 13px;
+  } 
+
+  ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+    //background-color: white; //rgb(179, 177, 177);
+    border-radius: 5px;
+    color: rgb(179, 177, 177);
+  }
+
+  ion-button {
+    --background: #0C2461;;
+    --color: #fff;
+    --border-radius:3px !important;
+    height: 43px;
+    text-transform: none;
+    font-size: 12px;
+  }
+
+  .circle {
+    height: 150px;
+    width: 150px;
+    background-color: #F9F9F9;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .imgSlide{
+    margin: 10px auto 20px;
+    display: block;
+  }
+
+  .btn-log{
+    //background: linear-gradient(91.85deg, #0C1733 2.48%, #236CBD 58.09%);
+    background: #0C2461;
+    color: #fff;
+    border-radius:10px !important;
+    height: 43px !important;
+    width: 100%;
+    text-transform: none;
+  }
+
+  .icon-back{
+    color: #49C120;
+    position: relative;
+    left: 4px;
+    top: 4px;
+  }
+  
+
+  

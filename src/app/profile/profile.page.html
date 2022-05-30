@@ -1,0 +1,151 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+   <ion-grid>
+    <ion-row>
+      <ion-col>
+      </ion-col><!--ion-col-->
+      <ion-col>
+      </ion-col><!--ion-col-->
+      <ion-col style="text-align: right">
+        <button mat-button (click)="deconnect()">
+          <ion-icon id="size-button" name="power" style="width: 34px;height: 28px;float: right;"></ion-icon>
+        </button>
+      </ion-col><!--ion-col-->
+    </ion-row>
+   </ion-grid>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+
+  <div>
+   
+    <!--<div class="header1">
+      <ion-img src="assets/images/hdr.png"></ion-img>
+    </div>-->
+
+    <div style="margin: 10px;" *ngIf="user">
+
+      <form novalidate>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <p style="color:#244CAA;font-weight: 700;font-size: 20px">Profile</p>
+            </ion-col><!--ion-col-->
+            <ion-col style="text-align: right;"><!--(click)="form.ngSubmit.emit()"-->
+              <p  *ngIf="user">
+                <button mat-button type="submit" (click)="updateUser(user)" style="position: relative;bottom: 6px;"><ion-icon name="create-outline" style="font-size: 20px;"></ion-icon></button>
+              </p>
+              
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div style="margin: 20px;">
+
+          <mat-form-field appearance="legacy" class="example-full-width">
+            <mat-label style="font-size: 14px;">Nom</mat-label>
+            <input matInput name="nom" [(ngModel)]="user.nom" #nom="ngModel" placeholder="Placeholder">
+          </mat-form-field>
+          <div *ngIf="nom.errors && (nom.dirty || nom.touched)">
+            <div [hidden]="!nom.errors.required">
+              <p class="text-danger" style="font-size: 13px;">Ce champ est obligatoire!</p>
+            </div>
+          </div>
+    
+          <mat-form-field appearance="legacy" class="example-full-width">
+            <mat-label style="font-size: 14px;">Prénom</mat-label>
+            <input matInput name="prenom" [(ngModel)]="user.prenom" #prenom="ngModel" placeholder="Placeholder">
+          </mat-form-field>
+          <div *ngIf="prenom.errors && (prenom.dirty || prenom.touched)">
+            <div [hidden]="!prenom.errors.required">
+              <p class="text-danger" style="font-size: 13px;">Ce champ est obligatoire!</p>
+            </div>
+          </div>
+    
+          <mat-form-field appearance="legacy" class="example-full-width">
+            <mat-label style="font-size: 14px;">Identifiant</mat-label>
+            <input matInput name="phone" [(ngModel)]="user.phone" placeholder="Placeholder" readonly>
+          </mat-form-field>
+
+        </div><!--div-->
+
+      </form><!--form-->
+
+    </div>
+
+    <div style="margin: 10px;">
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Modification mot de passe
+            </mat-panel-title>
+            <!--<mat-panel-description>
+              Type your name and age
+              <mat-icon>account_circle</mat-icon>
+            </mat-panel-description>-->
+          </mat-expansion-panel-header>
+      
+          <form [formGroup]="passwordForm" novalidate>
+
+            <mat-form-field appearance="legacy" class="example-full-width">
+              <mat-label style="font-size: 14px;">Mot de passe actuelle</mat-label>
+              <input matInput formControlName="lostpassword" [type]="hideLP ? 'password' : 'text'"  required>
+                  <button class="iconVisible" *ngIf="passwordForm.get('lostpassword').value && passwordForm.get('lostpassword').value!=''" mat-icon-button matSuffix (click)="hideLP = !hideLP" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideLP">
+                   <mat-icon>{{hideLP ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-icon class="iconError0" matTooltip="{{ account_validation_messages.lostpassword[0].message }}"
+                    *ngIf="passwordForm.get('lostpassword').hasError(account_validation_messages.lostpassword[0].type) && ((passwordForm.get('lostpassword').dirty || passwordForm.get('lostpassword').touched))"
+                    style="cursor: pointer;" matSuffix>
+                     <i class="fas fa-exclamation-circle"></i>
+                  </mat-icon>
+            </mat-form-field>
+            <div *ngIf="passwordFormErrors.lostpassword.notfound">
+              <p style="color:red">L'ancien mot de passe invalide. </p>
+            </div> 
+  
+            <mat-form-field appearance="legacy" class="example-full-width">
+              <mat-label style="font-size: 14px;">Nouveau mot de passe</mat-label>
+              <input matInput formControlName="password" [type]="hideP ? 'password' : 'text'"  required>
+              <button class="iconVisible" *ngIf="passwordForm.get('password').value && passwordForm.get('password').value!=''" mat-icon-button matSuffix (click)="hideP = !hideP" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideP">
+               <mat-icon>{{hideP ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-icon class="iconError0" matTooltip="{{ account_validation_messages.password[0].message }}"
+                *ngIf="passwordForm.get('password').hasError(account_validation_messages.password[0].type) && ((passwordForm.get('password').dirty || passwordForm.get('password').touched))"
+                style="cursor: pointer;" matSuffix>
+                 <i class="fas fa-exclamation-circle"></i>
+              </mat-icon>
+              <mat-icon class="iconError" matTooltip="{{ account_validation_messages.password[1].message }}"
+                  *ngIf="passwordForm.get('password').hasError(account_validation_messages.password[1].type) && ((passwordForm.get('password').dirty || passwordForm.get('password').touched))"
+                  style="cursor: pointer;" matSuffix>
+                  <i class="fas fa-exclamation-circle"></i>
+              </mat-icon>
+            </mat-form-field>
+  
+            <mat-form-field appearance="legacy" class="example-full-width">
+              <mat-label style="font-size: 14px;">Confirmation mot de passe</mat-label>
+              <input matInput  formControlName="confirmpassword" [type]="hidePassword ? 'password' : 'text'">
+                  <button class="iconVisible" *ngIf="passwordForm.get('confirmpassword').value && passwordForm.get('confirmpassword').value!=''" mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-icon class="iconError" matTooltip="Les deux mot de passe ne correspondent pas"
+                            *ngIf="(passwordForm.get('confirmpassword').errors?.notEqual || passwordForm.get('confirmpassword').value!=passwordForm.get('password').value) &&  ((passwordForm.get('confirmpassword').dirty || passwordForm.get('confirmpassword').touched))"
+                            style="cursor: pointer;" matSuffix>
+                            <i class="fas fa-exclamation-circle"></i>
+                  </mat-icon>
+            </mat-form-field>
+
+            <div align="center">
+              <button mat-raised-button style="background-color: #10ae58; margin-left: 8px;color: #fff;" type="submit" (click)="onPasswordUser()" matTooltip="Modifié"> Modifier mot de passe</button>
+            </div>
+
+          </form><!--form-->
+          
+
+        </mat-expansion-panel>
+       </mat-accordion> 
+    </div>
+
+  </div>
+</ion-content>

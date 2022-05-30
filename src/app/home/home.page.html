@@ -1,20 +1,54 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content [fullscreen]="true" class="ion-padding">
+ 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+
+    <div style="margin-bottom: 30px;">
+      <ion-img src="assets/images/logowefid.png" class="img-logo"></ion-img>
+    </div>
+    
+
+    <div style="font-size: 13px;">
+
+      <form [formGroup]="loginForm" novalidate>
+
+        <div *ngIf="testValidation" class="text-danger">
+          <p class="text-danger text-center" style="text-align: center;color: rgb(255, 0, 140);"> Veuillez remplir tous les champs </p>
+        </div>
+
+        <mat-form-field appearance="outline" class="example-full-width">
+          <!--<mat-label class="labelFrom">Numéro de téléphone</mat-label>-->
+          <input matInput formControlName="emailorphone" placeholder="Numéro de téléphone"
+          pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$|(\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+)">
+        </mat-form-field>
+        <div *ngIf="loginFormErrors.emailorphone.notfound">
+          <p style="color:rgb(255, 0, 123)">Identifiant ou mot de passe invalide. </p>
+        </div>
+    
+        <mat-form-field appearance="outline" class="example-full-width">
+          <!--<mat-label class="labelFrom">Mot de passe</mat-label>-->
+          <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" placeholder="Mot de passe">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+         </button>
+        </mat-form-field>
+
+        <div>
+          <button mat-raised-button class="btn-log" type="submit" (click)="onLogin()">Se connecter</button>
+        </div>
+
+
+      </form>
+
+     <!--<section class="example-section">
+       <mat-checkbox class="example-margin">Se souvenir de moi</mat-checkbox>
+     </section>-->
+
+     <div align="center">
+       <button mat-button style="text-align: center;color:#0C2461;font-size: 13px;" [routerLink]="'/password'">Mot de passe oublié?</button>
+     </div>
+
+    </div>
+
   </div>
+
 </ion-content>

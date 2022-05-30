@@ -1,0 +1,63 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+
+
+  <div style="padding-top: 30%;">
+
+    <ion-text>
+      <p class="titleSingup"><span class="icon-back" [routerLink]="'/'"><mat-icon>arrow_back_ios</mat-icon><mat-icon style="position:relative;right: 16px;">arrow_back_ios</mat-icon></span> Mot de passe oublié</p>
+      <p class="subSignup" style="font-size: 12px;">Entrez le code à 4 chiffres recu par SMS</p>
+    </ion-text>
+  
+    <div class="imgContent">
+      <ion-img src="assets/images/logowefid.png" class="imgLogo"></ion-img> 
+    </div>
+  
+    <div>
+        <img src="assets/images/password.png" class="imgSlide">
+    </div>
+  
+   
+    <div style="font-size: 12px;text-align: center;">
+  
+      <form [formGroup]="confirmphoneForm" novalidate>
+    
+        <mat-form-field appearance="outline" class="example-full-width">
+          <input matInput formControlName="code1">
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline" class="example-full-width">
+          <input matInput formControlName="code2">
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline" class="example-full-width">
+          <input matInput formControlName="code3">
+        </mat-form-field>
+    
+        <mat-form-field appearance="outline" class="example-full-width">
+          <input matInput formControlName="code4">
+        </mat-form-field>
+  
+        <div *ngIf="formErrors.code1.notfound">
+          <p style="font-size: 12px;color:#d41750">le code saisi est incorrect</p>
+          <br/>
+        </div>
+  
+        <div>
+          <!--<ion-button expand="block" type="submit" (click)="onCode()" [disabled]="confirmphoneForm.invalid">Valider</ion-button>-->
+          <button mat-raised-button class="btn-log" type="submit" (click)="onCode()" [disabled]="confirmphoneForm.invalid">Valider</button>
+  
+      </div>
+  
+      </form>
+  
+    </div>
+  
+    <ion-text>
+      <p style="font-size: 12px;">Vous n’avez pas reçu de SMS?<span style="color: #10ae58;"> Réessayer dans 30 s</span> </p>
+    </ion-text>
+
+  </div><!---->
+
+  
+
+</ion-content>

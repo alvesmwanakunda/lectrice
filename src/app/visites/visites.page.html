@@ -1,0 +1,156 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+   <ion-grid>
+    <ion-row>
+      <ion-col>
+      </ion-col><!--ion-col-->
+      <ion-col>
+      </ion-col><!--ion-col-->
+      <ion-col style="text-align: right">
+        <button mat-button>
+          <ion-icon id="size-button" name="power" style="width: 34px;height: 28px;float: right;"></ion-icon>
+        </button>
+      </ion-col><!--ion-col-->
+    </ion-row>
+   </ion-grid>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+
+  <div>
+    <!--<div class="header1">
+      <ion-img src="assets/images/hdr.png"></ion-img>
+    </div>-->
+
+    <div class="header2">
+
+      <div>
+        <ion-text>
+          <p class="title-h1">POINTS VISITES</p>
+        </ion-text>
+      </div>
+  
+      <div style="margin:10px;font-size: 11px;">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-item fill="outline" mode="md">
+                <ion-input type="text" autocomplete="off" autocorrect="off" placeholder="Rechercher" (keyup)="applyFilter($event)"  #input></ion-input>
+              </ion-item>
+            </ion-col><!--ion-col-->
+            <ion-col size="3">
+              <ion-icon name="calendar-outline" class="icon-search" (click)="openCalendar()"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>    
+      </div>
+  
+      <div class="point-number">
+        <ion-grid>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <ion-icon name="people-outline" class="icon-tab"></ion-icon>
+              <p class="title-tab">Nombre de clients</p>
+            </ion-col><!--ion-col-->
+            <ion-col style="text-align: center;">
+              <ion-icon name="qr-code-outline" class="icon-tab"></ion-icon>
+              <p class="title-tab">Total point visite</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid><!--grid-->
+      </div>
+  
+      <div class="bar-tab">
+        <ion-grid>
+          <ion-row>
+            <ion-col style="text-align: center;">
+              <p class="title-bar">{{clients?.length}}</p>
+            </ion-col><!--ion-col-->
+            <ion-col style="text-align: center;">
+              <p class="title-bar">{{count?.visite}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid><!--grid-->
+      </div>
+
+    </div><!--header2-->
+
+    <!--<div>
+      <ion-calendar [(ngModel)]="dateRange" [options]="optionsRange" [type]="type" [format]="'YYYY-MM-DD'"></ion-calendar>
+    </div>-->
+
+
+    <div class="header3">
+        <ion-list>
+          <ion-item (click)="clickModal(client?._id)" *ngFor="let client of clients">
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-label class="label1">{{client?.client?.numeroClient}}</ion-label>
+                </ion-col><!--ion-col-->
+                <ion-col style="text-align: center;">
+                  <ion-label class="label2">+ {{client?.visite}}</ion-label>
+                </ion-col>
+                <ion-col>
+                  <ion-label class="label1">{{client?.fin | dataAsAgo }}</ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-grid><!--grid-->
+          </ion-item>          
+        </ion-list> 
+    </div>
+
+
+
+
+
+</div>
+
+  <ion-popover [isOpen]="isDate" [arrow]="false">
+    <ng-template>
+      <mat-card class="demo-inline-calendar-card">
+        <mat-calendar></mat-calendar>
+      </mat-card>
+    </ng-template>
+  </ion-popover>
+
+  <ion-popover [isOpen]="isModal">
+    <ng-template>
+      <ion-content>
+        <mat-card class="example-card" style="padding: 0px !important;">
+          <div class="card-detail">
+            <mat-card-header>
+              <p class="title-card"><ion-icon name="alert-circle" style="position:relative;top:1px;"></ion-icon> Détails</p>
+            </mat-card-header>
+          </div>
+          <mat-card-content style="padding: 16px !important;">
+
+            <ion-grid>
+              <ion-row>
+                <ion-col size="5">
+                  <p class="tt1">Nom client:</p>
+                  <p class="tt1">Téléphone:</p>
+                  <p class="tt1">Point attribué:</p>
+                  <p class="tt1">Date:</p>
+                  <p class="tt1">Numéro client:</p>
+                </ion-col><!--ion-col-->
+                
+                <ion-col>
+                  <p class="tt2">{{visite?.user.nom}} {{visite?.user.prenom}}</p>
+                  <p class="tt2">{{visite?.user.phone}}</p>
+                  <p class="tt2">+{{visite?.visite}}</p>
+                  <p class="tt2">{{visite?.fin | dataAsAgo}}</p>
+                  <p class="tt2">{{visite?.client.numeroClient}}</p>
+                </ion-col>
+              </ion-row>
+            </ion-grid><!--grid-->
+             
+          </mat-card-content>
+        </mat-card>
+      </ion-content>
+    </ng-template>
+  </ion-popover>
+
+
+
+</ion-content>
