@@ -11,6 +11,8 @@ import {
  import { User } from '../shared/class/user';
  import { CustomValidators } from "ng2-validation";
  import { Router } from '@angular/router';
+ import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
 
 
@@ -32,18 +34,33 @@ export class ProfilePage implements OnInit {
   hideP = true;
   hidePassword = true;
   hideLP = true;
+  isInfo:boolean=true;
+
+  private isCurrentView:boolean;
+  private displayWarning:boolean;
+  subscriptions: Subscription = new Subscription();
 
   constructor(
     private entrepriseService:EntrepriseService,
     private loadingController:LoadingController,
     private toast: ToastController,
-    private router: Router
+    private router: Router,
+    private platform: Platform,
   ) { 
     this.passwordFormErrors = {
       lostpassword: {},
       password: {},
       confirmpassword:{}
     };
+    this.subscriptions.add(
+      this.platform.backButton.subscribeWithPriority(9999, (processNextHandler)=>{
+        if(this.isCurrentView){
+          this.displayWarning=true;
+        }else{
+          processNextHandler();
+        }
+      })
+    )
   }
 
   account_validation_messages={
@@ -234,6 +251,21 @@ export class ProfilePage implements OnInit {
         console.log("Erreur",error);
       }
     })
+  }
+
+  ionViewDidEnter(){
+    this.isCurrentView=true;
+  }
+  ionViewWillLeave(){
+    this.isCurrentView = false;
+  }
+
+  infoM(){
+    if(this.isInfo){
+      this.isInfo=false
+    }else{
+      this.isInfo=true;
+    }
   }
 
 }

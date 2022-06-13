@@ -11,6 +11,8 @@ import {
 //import { BarcodeScannerOptions } from '@ionic-native/barcode-scanner';
 import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-scanner/ngx";
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
 
 
@@ -49,13 +51,19 @@ export class DashboardPage implements OnInit {
     Validators.required,
   ]);
 
+  private isCurrentView:boolean;
+  private displayWarning:boolean;
+  subscriptions: Subscription = new Subscription();
+
   
 
   constructor(
     private entrepriseService: EntrepriseService, 
     private loadingController: LoadingController,
     private qrScanner: BarcodeScanner,
-    private router: Router) { 
+    private router: Router,
+    private platform: Platform,
+    ) { 
 
     this.user = JSON.parse(localStorage.getItem("user"));
     this.clientFormErrors = {
@@ -65,10 +73,19 @@ export class DashboardPage implements OnInit {
     };
     this.achatFormErrors = {
       montant:{}
-    }
+    };
     this.avoirFormErrors = {
       montant:{}
-    }
+    };
+    this.subscriptions.add(
+      this.platform.backButton.subscribeWithPriority(9999, (processNextHandler)=>{
+        if(this.isCurrentView){
+          this.displayWarning=true;
+        }else{
+          processNextHandler();
+        }
+      })
+    )
   }
 
   account_validation_messages={
@@ -398,6 +415,13 @@ export class DashboardPage implements OnInit {
     }else{
       this.isAvoir = true;
     }
+  }
+
+  ionViewDidEnter(){
+    this.isCurrentView=true;
+  }
+  ionViewWillLeave(){
+    this.isCurrentView = false;
   }
 
 }

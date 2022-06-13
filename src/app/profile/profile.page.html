@@ -1,45 +1,55 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-   <ion-grid>
-    <ion-row>
-      <ion-col>
-      </ion-col><!--ion-col-->
-      <ion-col>
-      </ion-col><!--ion-col-->
-      <ion-col style="text-align: right">
-        <button mat-button (click)="deconnect()">
-          <ion-icon id="size-button" name="power" style="width: 34px;height: 28px;float: right;"></ion-icon>
-        </button>
-      </ion-col><!--ion-col-->
-    </ion-row>
-   </ion-grid>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
 
-  <div>
-   
+  <div class="ion-padding">
+
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10">
+          <p style="color:#244CAA;font-weight: 700;font-size: 20px">Profile</p>
+        </ion-col><!--ion-col-->
+        <ion-col size="2"> 
+          <button mat-button (click)="infoM()"  *ngIf="isInfo"><ion-icon name="create" style="font-size: 35px;position: relative;top: 9px;"></ion-icon></button>
+          <button mat-button (click)="infoM()"  *ngIf="!isInfo"><ion-icon name="checkmark-done" style="font-size: 35px;position: relative;top: 9px;color: #244CAA;"></ion-icon></button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+
+  <div> 
     <!--<div class="header1">
       <ion-img src="assets/images/hdr.png"></ion-img>
     </div>-->
 
-    <div style="margin: 10px;" *ngIf="user">
+    <div class="ion-padding" *ngIf="isInfo">
+      <ion-list *ngIf="user">
+        <ion-item>
+          <ion-label class="text_label">
+            <button ion-button class="div_btn"><ion-icon name="person"></ion-icon></button> {{user.nom}}
+          </ion-label>
+        </ion-item>
+        <ion-item> 
+          <ion-label class="text_label">
+            <button ion-button class="div_btn"><ion-icon name="person"></ion-icon></button> {{user.prenom}}
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label class="text_label">
+            <button ion-button class="div_btn"> <ion-icon name="phone-portrait"></ion-icon></button> {{user.phone}}
+          </ion-label>
+        </ion-item>
+        
+      </ion-list>
+    </div>
+
+
+    <div style="margin: 10px;" *ngIf="!isInfo">
 
       <form novalidate>
-
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <p style="color:#244CAA;font-weight: 700;font-size: 20px">Profile</p>
-            </ion-col><!--ion-col-->
-            <ion-col style="text-align: right;"><!--(click)="form.ngSubmit.emit()"-->
-              <p  *ngIf="user">
-                <button mat-button type="submit" (click)="updateUser(user)" style="position: relative;bottom: 6px;"><ion-icon name="create-outline" style="font-size: 20px;"></ion-icon></button>
-              </p>
-              
-            </ion-col>
-          </ion-row>
-        </ion-grid>
 
         <div style="margin: 20px;">
 
@@ -70,6 +80,10 @@
 
         </div><!--div-->
 
+        <div align="center">
+          <button mat-raised-button style="background-color: #10ae58; margin-left: 8px;color: #fff;" type="submit" (click)="updateUser(user)" matTooltip="Modifié"> Modifier votre profile</button>
+        </div>
+
       </form><!--form-->
 
     </div>
@@ -81,10 +95,6 @@
             <mat-panel-title>
               Modification mot de passe
             </mat-panel-title>
-            <!--<mat-panel-description>
-              Type your name and age
-              <mat-icon>account_circle</mat-icon>
-            </mat-panel-description>-->
           </mat-expansion-panel-header>
       
           <form [formGroup]="passwordForm" novalidate>
@@ -145,6 +155,10 @@
 
         </mat-expansion-panel>
        </mat-accordion> 
+    </div>
+
+    <div style="margin: 10px;">
+      <p (click)="deconnect()" style="color:rgb(232, 9, 72);"><ion-icon id="size-button" name="power" style="width: 34px;height: 28px;position:relative;top:5px;"></ion-icon> Déconnexion</p>
     </div>
 
   </div>

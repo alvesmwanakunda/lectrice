@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EntrepriseService } from '../shared/services/entreprise.service';
 import { CalendarComponentOptions, CalendarModal, CalendarModalOptions, CalendarResult } from 'ion2-calendar';
 import { ModalController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
 
 @Component({
@@ -10,6 +12,10 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./visites.page.scss'],
 })
 export class VisitesPage implements OnInit {
+
+  private isCurrentView:boolean;
+  private displayWarning:boolean;
+  subscriptions: Subscription = new Subscription();
 
   isDate=false;
   isModal=false;
@@ -21,8 +27,19 @@ export class VisitesPage implements OnInit {
   
   constructor(
     private entrepriseService:EntrepriseService,
-    public modalCtrl: ModalController
-  ) { }
+    public modalCtrl: ModalController,
+    private platform: Platform,
+  ) {
+    this.subscriptions.add(
+      this.platform.backButton.subscribeWithPriority(9999, (processNextHandler)=>{
+        if(this.isCurrentView){
+          this.displayWarning=true;
+        }else{
+          processNextHandler();
+        }
+      })
+    )
+   }
 
   ngOnInit() {
     this.getEntreprise();
@@ -131,6 +148,13 @@ export class VisitesPage implements OnInit {
         console.log("Erreur", error);
       }
     })
+  }
+
+  ionViewDidEnter(){
+    this.isCurrentView=true;
+  }
+  ionViewWillLeave(){
+    this.isCurrentView = false;
   }
 
 }

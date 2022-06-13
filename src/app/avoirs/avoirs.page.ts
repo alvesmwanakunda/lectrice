@@ -3,6 +3,8 @@ import { EntrepriseService } from '../shared/services/entreprise.service';
 import { CalendarComponentOptions, CalendarModal, CalendarModalOptions, CalendarResult } from 'ion2-calendar';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
 
 
@@ -23,12 +25,27 @@ export class AvoirsPage implements OnInit {
   info:any;
   type:any;
 
+  private isCurrentView:boolean;
+  private displayWarning:boolean;
+  subscriptions: Subscription = new Subscription();
+
 
   constructor(
     private entrepriseService:EntrepriseService,
     public modalCtrl: ModalController,
-    private router: Router
-  ) { }
+    private router: Router,
+    private platform: Platform,
+  ) { 
+    this.subscriptions.add(
+      this.platform.backButton.subscribeWithPriority(9999, (processNextHandler)=>{
+        if(this.isCurrentView){
+          this.displayWarning=true;
+        }else{
+          processNextHandler();
+        }
+      })
+    )
+  }
 
   ngOnInit() {
 
@@ -177,6 +194,13 @@ applyFilterDate(data){
         console.log("Erreur",error);
       }
     })
+  }
+
+  ionViewDidEnter(){
+    this.isCurrentView=true;
+  }
+  ionViewWillLeave(){
+    this.isCurrentView = false;
   }
 
 }

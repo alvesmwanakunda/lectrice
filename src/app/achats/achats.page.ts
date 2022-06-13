@@ -3,6 +3,8 @@ import { EntrepriseService } from '../shared/services/entreprise.service';
 import { CalendarComponentOptions, CalendarModal, CalendarModalOptions, CalendarResult } from 'ion2-calendar';
 import { ModalController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
 
 
@@ -12,6 +14,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./achats.page.scss'],
 })
 export class AchatsPage implements OnInit {
+
+  private isCurrentView:boolean;
+  private displayWarning:boolean;
+  subscriptions: Subscription = new Subscription();
 
   isDate=false;
   isModal=false;
@@ -23,8 +29,19 @@ export class AchatsPage implements OnInit {
   constructor(
     private entrepriseService:EntrepriseService,
     public modalCtrl: ModalController,
-    private router: Router
-  ) { }
+    private router: Router,
+    private platform: Platform,
+  ) { 
+    this.subscriptions.add(
+      this.platform.backButton.subscribeWithPriority(9999, (processNextHandler)=>{
+        if(this.isCurrentView){
+          this.displayWarning=true;
+        }else{
+          processNextHandler();
+        }
+      })
+    )
+  }
 
   ngOnInit() {
     this.getEntreprise();
@@ -143,6 +160,13 @@ deconnect(){
       console.log("Erreur",error);
     }
   })
+}
+
+ionViewDidEnter(){
+  this.isCurrentView=true;
+}
+ionViewWillLeave(){
+  this.isCurrentView = false;
 }
 
 }
