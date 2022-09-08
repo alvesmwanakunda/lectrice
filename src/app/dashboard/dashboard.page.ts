@@ -246,9 +246,14 @@ export class DashboardPage implements OnInit {
   addAchat():void{
 
     if(!this.achatForm.invalid){
+      console.log("Value", this.achatForm.value);
         this.montant = this.achatForm.value;
         this.isAchat = false;
-        this.scannerAchat(this.montant)
+        this.scannerAchat(this.montant);
+        if(this.montant){
+          this.achatForm.setValue({montant:"0"});
+        }
+        
         //console.log("Montant", this.montant);
     }
   }
@@ -259,6 +264,9 @@ export class DashboardPage implements OnInit {
         this.montant = this.avoirForm.value;
         this.isAvoir = false;
         this.scannerAvoir(this.montant)
+        if(this.montant){
+          this.avoirForm.setValue({montant:"0"});
+        }
         //console.log("Montant", this.montant);
     }
   }
@@ -290,7 +298,7 @@ export class DashboardPage implements OnInit {
       showFlipCameraButton:true,
       showTorchButton:false,
       torchOn:false,
-      prompt:'Place a barcode inside the scan area',
+      prompt:'Placer un code-barres à l\'intérieur de la zone de numérisation',
       resultDisplayDuration:100,
       orientation:'portrait'
     };
@@ -309,7 +317,7 @@ export class DashboardPage implements OnInit {
       showFlipCameraButton:true,
       showTorchButton:false,
       torchOn:false,
-      prompt:'Place a barcode inside the scan area',
+      prompt:'Placer un code-barres à l\'intérieur de la zone de numérisation',
       resultDisplayDuration:100,
       orientation:'portrait'
     };
@@ -329,7 +337,7 @@ export class DashboardPage implements OnInit {
       showFlipCameraButton:true,
       showTorchButton:false,
       torchOn:false,
-      prompt:'Place a barcode inside the scan area',
+      prompt:'Placer un code-barres à l\'intérieur de la zone de numérisation',
       resultDisplayDuration:100,
       orientation:'portrait'
     };
@@ -348,7 +356,7 @@ export class DashboardPage implements OnInit {
       showFlipCameraButton:true,
       showTorchButton:false,
       torchOn:false,
-      prompt:'Place a barcode inside the scan area',
+      prompt:'Placer un code-barres à l\'intérieur de la zone de numérisation',
       resultDisplayDuration:100,
       orientation:'portrait'
     };
@@ -369,7 +377,7 @@ export class DashboardPage implements OnInit {
        showFlipCameraButton:true,
        showTorchButton:false,
        torchOn:false,
-       prompt:'Place a barcode inside the scan area',
+       prompt:'Placer un code-barres à l\'intérieur de la zone de numérisation',
        resultDisplayDuration:100,
        orientation:'portrait'
      };

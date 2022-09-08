@@ -6,6 +6,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
 import { SharedModule } from '../shared/shared.module';
 import { EntrepriseService } from '../shared/services/entreprise.service';
+import { AuthService } from '../shared/services/auth.service';
 
 
 @NgModule({
@@ -18,6 +19,6 @@ import { EntrepriseService } from '../shared/services/entreprise.service';
     ReactiveFormsModule
   ],
   declarations: [ProfilePage],
-  providers:[EntrepriseService]
+  providers:[EntrepriseService,AuthService]
 })
 export class ProfilePageModule {}

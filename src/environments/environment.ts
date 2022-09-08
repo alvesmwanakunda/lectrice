@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //BASE_API_URL: "http://localhost:5000"
-  BASE_API_URL: "https://guarded-sea-81297.herokuapp.com"
+  BASE_API_URL: "http://localhost:5000"
+  //BASE_API_URL: "https://guarded-sea-81297.herokuapp.com"
 };
 
 /*

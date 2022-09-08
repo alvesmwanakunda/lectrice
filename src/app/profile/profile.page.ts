@@ -13,6 +13,7 @@ import {
  import { Router } from '@angular/router';
  import { Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
+import { AuthService } from '../shared/services/auth.service';
 
 
 
@@ -46,6 +47,7 @@ export class ProfilePage implements OnInit {
     private toast: ToastController,
     private router: Router,
     private platform: Platform,
+    private authService: AuthService
   ) { 
     this.passwordFormErrors = {
       lostpassword: {},
@@ -251,6 +253,10 @@ export class ProfilePage implements OnInit {
         console.log("Erreur",error);
       }
     })
+  }
+
+  logout():void{
+    this.authService.logout();
   }
 
   ionViewDidEnter(){

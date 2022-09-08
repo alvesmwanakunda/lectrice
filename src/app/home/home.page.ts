@@ -103,9 +103,14 @@ export class HomePage  implements OnInit{
         if (!response.success) {
           this.loginFormErrors["emailorphone"].notfound = true;
         } else {
-          console.log("Reponse", response.message);
-          this.authService.setUser(response.message);
-          this.handleRedirectOnLogin(response.message);
+          if(response.message.user.role=="agent"){
+
+            this.authService.setUser(response.message);
+            this.handleRedirectOnLogin(response.message);
+
+          }else{
+            this.loginFormErrors["emailorphone"].notfound = true;
+          }
         }
         this.onLoadForm = false;
       })
