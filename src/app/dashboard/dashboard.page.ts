@@ -13,6 +13,7 @@ import { BarcodeScanner, BarcodeScannerOptions } from "@ionic-native/barcode-sca
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Platform } from '@ionic/angular';
+import { NotificationService } from '../shared/services/notification.service';
 
 
 
@@ -63,6 +64,7 @@ export class DashboardPage implements OnInit {
     private qrScanner: BarcodeScanner,
     private router: Router,
     private platform: Platform,
+    private notificationService:NotificationService
     ) { 
 
     this.user = JSON.parse(localStorage.getItem("user"));
@@ -293,6 +295,11 @@ export class DashboardPage implements OnInit {
 
   scannerVisite(){
 
+    //let iduser="62d93d8f9570d00ea1d97ff1";
+
+    //this.entrepriseService.addOperationVisite(iduser, this.entreprise._id);
+
+
     const options : BarcodeScannerOptions={
       preferFrontCamera:false,
       showFlipCameraButton:true,
@@ -305,8 +312,8 @@ export class DashboardPage implements OnInit {
 
     this.qrScanner.scan(options).then(res=>{
       console.log('Scanned sommething', res);
-       //this.QRSCANNED_DATA=res;
          this.entrepriseService.addOperationVisite(res.text, this.entreprise._id);
+         
       }).catch((e:any)=> console.log('Error is', e.name));
   }
   

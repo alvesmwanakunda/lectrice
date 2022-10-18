@@ -3,11 +3,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 import { AlertController } from '@ionic/angular';
+import { io } from 'socket.io-client';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class EntrepriseService {
+
+  header:any;
+
+  private socket = io(environment.BASE_API_URL);
+
 
   constructor(
     private http:HttpClient,
@@ -107,6 +114,7 @@ export class EntrepriseService {
     return this.http.get(`${environment.BASE_API_URL}/operation/visite/${idUser}/${idEntreprise}`).subscribe((res:any)=>{
       try {
            console.log("Response", res);
+           this.socket.emit('get_visite', res.message.point);
            this.presentAlert();
       } catch (error) {
         console.log("Erreur", error);
@@ -120,6 +128,7 @@ export class EntrepriseService {
     return this.http.put(`${environment.BASE_API_URL}/operation/achat/${idUser}/${idEntreprise}`,montant).subscribe((res:any)=>{
       try {
            console.log("Response",res);
+           this.socket.emit('get_visite', res.message.point);
            this.presentAlert();
       } catch (error) {
         console.log("Erreur", error);
@@ -146,7 +155,22 @@ export class EntrepriseService {
     return this.http.get(`${environment.BASE_API_URL}/operation/cadeau/${idUser}/${idEntreprise}/${idCadeau}`).subscribe((res:any)=>{
       try {
            console.log("Response",res);
-           this.presentAlertCadeau(res.message);
+           //'Succès'
+           if(res.message=="Votre code cadeau a été scanné avec succès"){
+
+            this.socket.emit('get_visite', res.operation.point);
+            this.socket.emit('get_depense', res.point);
+
+            this.header="Succès";
+            this.presentAlertCadeau(res.message, this.header);
+
+           }else{
+
+            this.header="Erreur";
+            this.presentAlertCadeau(res.message, this.header);
+           }
+           
+           
       } catch (error) {
         console.log("Erreur", error);
         this.presentAlertError();
@@ -159,7 +183,8 @@ export class EntrepriseService {
     return this.http.get(`${environment.BASE_API_URL}/avoir/encaisse/${idAvoir}/${idEntreprise}`).subscribe((res:any)=>{
       try {
            console.log("Response",res);
-           this.presentAlertCadeau(res.message);
+           this.header="Succès";
+           this.presentAlertCadeau(res.message,this.header);
       } catch (error) {
         console.log("Erreur", error);
         this.presentAlertError();
@@ -195,10 +220,10 @@ export class EntrepriseService {
     console.log('onDidDismiss resolved with role', role);
   }
 
-  async presentAlertCadeau(message) {
+  async presentAlertCadeau(message,header) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Succès',
+      header: header,
       message: message,
       buttons: ['Fermer']
     });
