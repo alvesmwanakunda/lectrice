@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.wefidl.com" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Lectrice</name>
-    <description>Wefid fidelite.</description>
-    <author email="hi@ionicframework.com" href="http://ionicframework.com/">alves-Calves</author>
+    <description>Wefid est une carte de fidélité dématérialisée qui permet de collecter des points et d'obtenir des récompenses</description>
+    <author email="ktanatec@gmail.com" href="https://wefid.io/site">WefidL</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -12,6 +12,9 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
+    <preference name="android-minSdkVersion" value="22" />
+    <preference name="android-targetSdkVersion" value="31" />
+    <preference name="android-compileSdkVersion " value="31" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
