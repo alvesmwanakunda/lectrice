@@ -67,7 +67,6 @@
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^5.0.0",
-    "cordova-plugin-qrscanner": "^3.0.1",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
     "eslint": "^7.6.0",
@@ -95,12 +94,11 @@
       "cordova-plugin-device": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
-      "phonegap-plugin-barcodescanner": {},
-      "cordova-plugin-qrscanner": {}
+      "phonegap-plugin-barcodescanner": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

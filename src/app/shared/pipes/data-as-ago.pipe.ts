@@ -15,7 +15,7 @@ export class DataAsAgoPipe implements PipeTransform {
       return 'il y a un moment';
     }
     const divider = [60, 60, 24, 30, 12];
-    const string = [' second', ' minute', ' heure', ' jour', ' mois', ' an'];
+    const string = [' second', ' minute', ' heure', ' jour', ' moi', ' an'];
     let i;
     for (i = 0; Math.floor(time / divider[i]) > 0; i++) {
       time /= divider[i];

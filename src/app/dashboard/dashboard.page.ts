@@ -56,16 +56,20 @@ export class DashboardPage implements OnInit {
   private displayWarning:boolean;
   subscriptions: Subscription = new Subscription();
 
-  
+  idEntreprise="62585479eea2c9ae6247e1fa";
+  idUser="6410a4211ff0f4429a38dcfb";
+  qr:any;
+
+
 
   constructor(
-    private entrepriseService: EntrepriseService, 
+    private entrepriseService: EntrepriseService,
     private loadingController: LoadingController,
     private qrScanner: BarcodeScanner,
     private router: Router,
     private platform: Platform,
     private notificationService:NotificationService
-    ) { 
+    ) {
 
     this.user = JSON.parse(localStorage.getItem("user"));
     this.clientFormErrors = {
@@ -184,7 +188,7 @@ export class DashboardPage implements OnInit {
       ]),
       nom:new FormControl("",[Validators.required]),
       prenom:new FormControl("",[Validators.required]),
-     
+
     });
 
     this.achatForm= new FormGroup({
@@ -233,12 +237,12 @@ export class DashboardPage implements OnInit {
             }).catch((err)=>{
               this.loadingDismiss("ifOfLoading");
             })
-  
-           
+
+
           }
-  
+
         })
-  
+
       }else{
         this.submitted = false
       }
@@ -255,7 +259,7 @@ export class DashboardPage implements OnInit {
         if(this.montant){
           this.achatForm.setValue({montant:"0"});
         }
-        
+
         //console.log("Montant", this.montant);
     }
   }
@@ -295,12 +299,10 @@ export class DashboardPage implements OnInit {
 
   scannerVisite(){
 
-    //let iduser="62d93d8f9570d00ea1d97ff1";
-
-    //this.entrepriseService.addOperationVisite(iduser, this.entreprise._id);
+    //this.entrepriseService.addOperationVisite(this.idUser, this.entreprise._id);
 
 
-    const options : BarcodeScannerOptions={
+   const options : BarcodeScannerOptions={
       preferFrontCamera:false,
       showFlipCameraButton:true,
       showTorchButton:false,
@@ -311,12 +313,15 @@ export class DashboardPage implements OnInit {
     };
 
     this.qrScanner.scan(options).then(res=>{
-      console.log('Scanned sommething', res);
+         console.log('Scanned sommething', res);
+
          this.entrepriseService.addOperationVisite(res.text, this.entreprise._id);
-         
+
       }).catch((e:any)=> console.log('Error is', e.name));
+
+
   }
-  
+
   scannerAchat(montant){
 
     const options : BarcodeScannerOptions={
@@ -335,7 +340,7 @@ export class DashboardPage implements OnInit {
        //this.QRSCANNED_DATA=res;
          this.entrepriseService.addOperationAchat(res.text, this.entreprise._id,montant);
       }).catch((e:any)=> console.log('Error is', e.name));
-  } 
+  }
 
   scannerAvoir(montant){
 
@@ -353,11 +358,12 @@ export class DashboardPage implements OnInit {
       console.log('Scanned sommething', res);
           this.entrepriseService.addOperationAvoir(res.text, this.entreprise._id,montant)
       }).catch((e:any)=> console.log('Error is', e.name));
-  } 
+  }
 
   scannerCadeau(){
 
-      
+
+
    const options : BarcodeScannerOptions={
       preferFrontCamera:false,
       showFlipCameraButton:true,

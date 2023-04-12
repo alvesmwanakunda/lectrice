@@ -21,10 +21,10 @@
     </div>-->
 
     <div style="padding-top: 15px;padding-left: 15px;padding-right: 15px;">
-     <h3 style="color: #ffffff;">Hello {{user?.nom}},</h3> 
-     <p style="font-size: 13px;color: #ffffff">
+     <h3 style="color: #ffffff;">Hello {{user?.nom}},</h3>
+     <!--<p style="font-size: 13px;color: #ffffff">
       Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500
-     </p>
+     </p>-->
     </div>
 
     <div class="div-care-body">
@@ -39,7 +39,7 @@
                           <p class="title-h" style="position: relative;bottom: 15px;">VISITES</p>
                           <div style="position: relative;bottom: 20px;">
                             <ion-img src="assets/images/scanne.png" class="img-h"></ion-img>
-                          </div>  
+                          </div>
                     </div>
                   </ion-col>
                   <ion-col (click)="IsAchat()">
@@ -52,7 +52,7 @@
                     </div>
                   </ion-col>
                 </ion-row>
-              </ion-grid> 
+              </ion-grid>
               <ion-grid>
                 <ion-row>
                     <ion-col (click)="scannerCadeau()">
@@ -74,7 +74,7 @@
                       </div>
                     </ion-col>
                 </ion-row>
-              </ion-grid>  
+              </ion-grid>
           </div>
         </mat-tab>
         <mat-tab label="CREER UN CLIENT" class="label-dashboard">
@@ -100,7 +100,7 @@
                     {{account_validation_messages.nom[0].message}}
                   </mat-error>
                 </div>
-  
+
                 <mat-form-field appearance="outline" class="example-full-width">
                   <input matInput formControlName="prenom" placeholder="Prénom" required>
                   <mat-icon matPrefix>personal</mat-icon>
@@ -110,7 +110,7 @@
                     {{account_validation_messages.prenom[0].message}}
                   </mat-error>
                 </div>
-  
+
                 <mat-form-field appearance="outline" class="example-full-width">
                   <input matInput placeholder="Numéro de téléphone" formControlName="emailorphone" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$|(\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+)" required>
                   <mat-icon matPrefix>phone_iphone</mat-icon>
@@ -127,23 +127,23 @@
 
               </form>
 
-              
+
 
             </div>
-            
+
           </div>
 
         </mat-tab>
       </mat-tab-group>
     </div>
-    
-  </div>  
-   
+
+  </div>
+
   <ion-popover [isOpen]="submitted">
       <ng-template>
         <ion-content>
           <mat-card class="example-card" style="box-shadow: none !important;opacity: 80%;padding: 0px;">
-  
+
             <mat-card-content style="margin: 0 60px 0 60px;">
                <img src="assets/images/valide.png" class="center-img">
             </mat-card-content>
@@ -156,7 +156,7 @@
         </ion-content>
       </ng-template>
   </ion-popover>
-  
+
   <ion-popover [isOpen]="isAchat" [arrow]="false">
     <ng-template>
         <mat-card class="achat-card">
@@ -175,7 +175,7 @@
                     {{account_validation_achat.montant[0].message}}
                   </mat-error>
                 </div>
-  
+
                 <div>
                   <button mat-button  type="submit" (click)="addAchat()" cdkFocusInitial class="btn-log">Générer un QR code</button>
                 </div>
@@ -203,7 +203,7 @@
                   <div style="font-size: 13px;padding-top: 25px;">
 
                     <form [formGroup]="avoirForm" novalidate>
-      
+
                       <mat-form-field appearance="outline" class="example-full-width">
                         <input type="number" matInput  formControlName="montant" placeholder="ENTRER LE MONTANT" required>
                       </mat-form-field>
@@ -212,12 +212,12 @@
                           {{account_validation_avoir.montant[0].message}}
                         </mat-error>
                       </div>
-        
+
                       <div>
                         <button mat-button  type="submit" (click)="addAvoir()" cdkFocusInitial class="btn-log">Scanner le QR CODE</button>
                       </div>
                     </form>
-      
+
                   </div>
               </mat-expansion-panel>
               <mat-expansion-panel (opened)="panelOpenState = true"
@@ -236,5 +236,5 @@
         </mat-card>
     </ng-template>
   </ion-popover>
- 
+
 </ion-content>

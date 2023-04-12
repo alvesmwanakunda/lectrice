@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { environment } from 'src/environments/environment';
 import { AlertController } from '@ionic/angular';
 import { io } from 'socket.io-client';
+import { catchError, tap } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -111,84 +113,110 @@ export class EntrepriseService {
   //Fin
 
   addOperationVisite(idUser, idEntreprise){
-    return this.http.get(`${environment.BASE_API_URL}/operation/visite/${idUser}/${idEntreprise}`).subscribe((res:any)=>{
-      try {
-           console.log("Response", res);
-           this.socket.emit('get_visite', res.message.point);
-           this.presentAlert();
-      } catch (error) {
-        console.log("Erreur", error);
-        this.presentAlertError();
-      }
-    })
-  }
+      return this.http.get(`${environment.BASE_API_URL}/operation/visite/${idUser}/${idEntreprise}`).pipe(
+        catchError(err=>{
+          //console.log('Handling error locally and rethrowing it...',err) JSON.stringify(err);
+          this.presentAlertError();
+          return throwError(err);
+        })
+      )
+      .subscribe({
+        next:(res:any)=>{
+          //console.log("Response", res);
+          this.socket.emit('get_visite', res.message.point);
+          this.socket.emit('message_visite',res);
+          this.presentAlert();
+        },
+        error: (err:any)=>{
+          console.log('HTTP Error', err);
+          this.presentAlertError()
+        },
+      })
+    }
+
 
   addOperationAchat(idUser, idEntreprise, montant){
 
-    return this.http.put(`${environment.BASE_API_URL}/operation/achat/${idUser}/${idEntreprise}`,montant).subscribe((res:any)=>{
-      try {
-           console.log("Response",res);
-           this.socket.emit('get_visite', res.message.point);
-           this.presentAlert();
-      } catch (error) {
-        console.log("Erreur", error);
+    return this.http.put(`${environment.BASE_API_URL}/operation/achat/${idUser}/${idEntreprise}`,montant).pipe(
+      catchError(err=>{
         this.presentAlertError();
-      }
+        return throwError(err);
+      })
+    )
+    .subscribe({
+      next:(res:any)=>{
+        //console.log("Response", res);
+        this.socket.emit('get_visite', res.message.point);
+        this.presentAlert();
+      },
+      error: (err)=>console.log('HTTP Error', err),
     })
+
   }
 
   addOperationAvoir(idUser, idEntreprise, montant){
 
-    return this.http.put(`${environment.BASE_API_URL}/operation/avoir/${idUser}/${idEntreprise}`,montant).subscribe((res:any)=>{
-      try {
-           console.log("Response",res);
-           this.presentAlert();
-      } catch (error) {
-        console.log("Erreur", error);
+    return this.http.put(`${environment.BASE_API_URL}/operation/avoir/${idUser}/${idEntreprise}`,montant).pipe(
+      catchError(err=>{
         this.presentAlertError();
-      }
+        return throwError(err);
+      })
+    )
+    .subscribe({
+      next:(res:any)=>{
+        console.log("Response", res);
+        this.presentAlert();
+      },
+      error: (err)=>console.log('HTTP Error', err),
     })
+
   }
 
   addOperationCadeau(idUser, idEntreprise, idCadeau){
 
-    return this.http.get(`${environment.BASE_API_URL}/operation/cadeau/${idUser}/${idEntreprise}/${idCadeau}`).subscribe((res:any)=>{
-      try {
-           console.log("Response",res);
-           //'Succès'
-           if(res.message=="Votre code cadeau a été scanné avec succès"){
-
-            this.socket.emit('get_visite', res.operation.point);
-            this.socket.emit('get_depense', res.point);
-
-            this.header="Succès";
-            this.presentAlertCadeau(res.message, this.header);
-
-           }else{
-
-            this.header="Erreur";
-            this.presentAlertCadeau(res.message, this.header);
-           }
-           
-           
-      } catch (error) {
-        console.log("Erreur", error);
+    return this.http.get(`${environment.BASE_API_URL}/operation/cadeau/${idUser}/${idEntreprise}/${idCadeau}`).pipe(
+      catchError(err=>{
         this.presentAlertError();
-      }
+        return throwError(err);
+      })
+    )
+    .subscribe({
+      next:(res:any)=>{
+
+        if(res.message=="Votre code cadeau a été scanné avec succès"){
+
+          this.socket.emit('get_visite', res.operation.point);
+          this.socket.emit('get_depense', res.point);
+
+          this.header="Succès";
+          this.presentAlertCadeau(res.message, this.header);
+
+         }else{
+
+          this.header="Erreur";
+          this.presentAlertCadeau(res.message, this.header);
+         }
+
+      },
+      error: (err)=>console.log('HTTP Error', err),
     })
   }
 
   addOperationAvoirDepense(idAvoir, idEntreprise){
 
-    return this.http.get(`${environment.BASE_API_URL}/avoir/encaisse/${idAvoir}/${idEntreprise}`).subscribe((res:any)=>{
-      try {
-           console.log("Response",res);
-           this.header="Succès";
-           this.presentAlertCadeau(res.message,this.header);
-      } catch (error) {
-        console.log("Erreur", error);
+    return this.http.get(`${environment.BASE_API_URL}/avoir/encaisse/${idAvoir}/${idEntreprise}`).pipe(
+      catchError(err=>{
         this.presentAlertError();
-      }
+        return throwError(err);
+      })
+    )
+    .subscribe({
+      next:(res:any)=>{
+        console.log("Response", res);
+        this.header="Succès";
+        this.presentAlertCadeau(res.message,this.header);
+      },
+      error: (err)=>console.log('HTTP Error', err),
     })
   }
 
@@ -206,11 +234,11 @@ export class EntrepriseService {
     console.log('onDidDismiss resolved with role', role);
   }
 
-  async presentAlertError() {
+  async presentAlertError(err?) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class-error',
-      header: 'Erreur',
-      message: 'Echec de la transaction veuillez réessayer',
+      header: `Erreur`,
+      message: `Echec de la transaction veuillez réessayer`,
       buttons: ['Fermer']
     });
 
@@ -233,5 +261,5 @@ export class EntrepriseService {
     const { role } = await alert.onDidDismiss();
     console.log('onDidDismiss resolved with role', role);
   }
-  
+
 }
