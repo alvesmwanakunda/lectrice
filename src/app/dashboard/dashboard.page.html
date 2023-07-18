@@ -30,8 +30,8 @@
     <div class="div-care-body">
       <mat-tab-group mat-align-tabs="center">
         <mat-tab label="SCAN" class="label-dashboard">
-          <div style="padding-top: 17%;margin: 10px">
-            <ion-grid>
+          <div style="padding-top: 3%;margin: 10px">
+              <ion-grid>
               <ion-row>
                   <ion-col (click)="scannerVisite()">
                     <div class="card-mini">
@@ -73,6 +73,22 @@
                         </div>
                       </div>
                     </ion-col>
+                </ion-row>
+              </ion-grid>
+
+              <ion-grid>
+                <ion-row>
+                    <ion-col routerLink="/tabs/promotions">
+                      <div class="card-mini">
+                            <p class="title-h">CODE</p>
+                            <p class="title-h" style="position: relative;bottom: 15px;">PROMOTION</p>
+                            <div style="position: relative;bottom: 20px;">
+                              <ion-img src="assets/images/scanne.png" class="img-h"></ion-img>
+                            </div>
+                      </div>
+                    </ion-col>
+                    <ion-col></ion-col>
+
                 </ion-row>
               </ion-grid>
           </div>

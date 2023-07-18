@@ -112,6 +112,12 @@ export class EntrepriseService {
 
   //Fin
 
+  // Promotion formulaire
+  verifyQrcodeMessageFormulaire(code, idEntreprise){
+    return this.http.post(`${environment.BASE_API_URL}/verify/qrcode/message/formulaire/${idEntreprise}`,code)
+  }
+  // Fin
+
   addOperationVisite(idUser, idEntreprise){
       return this.http.get(`${environment.BASE_API_URL}/operation/visite/${idUser}/${idEntreprise}`).pipe(
         catchError(err=>{
@@ -220,6 +226,25 @@ export class EntrepriseService {
     })
   }
 
+  verifyQrcodeMessage(id, idEntreprise){
+    return this.http.get(`${environment.BASE_API_URL}/verify/qrcode/message/${id}/${idEntreprise}`).pipe(
+      catchError(err=>{
+        //this.presentAlertMessageError();
+        return throwError(err);
+      })
+    )
+    .subscribe({
+      next:(res:any)=>{
+        //console.log("Response", res);
+        this.presentAlertMessage();
+      },
+      error: (err:any)=>{
+        console.log('HTTP Error', err);
+        this.presentAlertMessageError()
+      },
+    })
+  }
+
   async presentAlert() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -253,6 +278,34 @@ export class EntrepriseService {
       cssClass: 'my-custom-class',
       header: header,
       message: message,
+      buttons: ['Fermer']
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+  }
+
+  async presentAlertMessage() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Succès',
+      message: 'Code promotion approuve.',
+      buttons: ['Fermer']
+    });
+
+    await alert.present();
+
+    const { role } = await alert.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+  }
+
+  async presentAlertMessageError(err?) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class-error',
+      header: `Erreur`,
+      message: `Code promotion non approuve.`,
       buttons: ['Fermer']
     });
 

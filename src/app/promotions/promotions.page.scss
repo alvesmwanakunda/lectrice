@@ -1,0 +1,26 @@
+#container{
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    top: 40%;
+    transform: translateY(-50%);
+}
+
+.example-full-width {
+    width: 100%;
+    color: #000000;
+  }
+
+  .btn-log{
+    background: #0C2461;
+    color: #fff;
+    border-radius:10px !important;
+    height: 43px !important;
+    width: 100%;
+    text-transform: none;
+  }
+
+  .message-error{
+    position: relative;
+    bottom: 20px;
+  }

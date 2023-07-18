@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Promotions</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Promotions</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+
+    <div>
+      <ion-segment value="default">
+        <ion-segment-button value="default" (click)="falseCode()">
+          <ion-label>Scanner code</ion-label>
+          <ion-icon name="qr-code-outline"></ion-icon>
+        </ion-segment-button>
+  
+        <ion-segment-button value="segment" (click)="trueCode()">
+          <ion-label>Formulaire code</ion-label>
+          <ion-icon name="clipboard-outline"></ion-icon>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <div *ngIf="!isCode">
+      <ion-card (click)="scanneCode()">
+        <img alt="Silhouette of mountains" src="assets/images/sc2.png" />
+        <ion-card-header>
+          <ion-card-title>Scanner QrCode</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </div><!--scanner-->
+
+    <div *ngIf="isCode">
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Entrer le code</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <form [formGroup]="codeForm" novalidate>
+            <div>
+              <mat-form-field appearance="outline" class="example-full-width">
+                <input type="text" formControlName="code" matInput   placeholder="Entrer le code" required>
+              </mat-form-field>
+            </div>
+            <div class="message-error">
+              <mat-error class="error-message" style="font-size: 12px;"  *ngIf="codeForm.get('code').hasError(account_validation_messages.code[0].type) && (codeForm.get('code').dirty || codeForm.get('code').touched  || (submitted))">
+                {{account_validation_messages.code[0].message}}
+              </mat-error>
+            </div>
+            <div>
+              <button mat-button  type="submit" (click)="addCode()" cdkFocusInitial class="btn-log">Scanner</button>
+            </div>
+          </form>
+        </ion-card-content>
+      </ion-card>
+      
+    </div><!--Formulaire-->
+
+  </div>
+
+</ion-content>
